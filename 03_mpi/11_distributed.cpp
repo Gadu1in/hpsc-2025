@@ -30,7 +30,12 @@ int main(int argc, char** argv) {
     MPI_Win win;
     MPI_Win_create(jbody, N/size*sizeof(MPI_BODY), sizeof(MPI_BODY), MPI_INFO_NULL, MPI_COMM_WORLD, &win);
     MPI_Win_fence(0, win);
-    MPI_Put(jbody, N/size, MPI_BODY, send_to, 0, N/size, MPI_BODY, win);
+    if (rank == send_to) {
+      printf("Warning: rank %d trying to MPI_Put to itself!\n", rank);
+    }
+    else {
+      MPI_Put(jbody, N/size, MPI_BODY, send_to, 0, N/size, MPI_BODY, win);
+    }
     MPI_Win_fence(0, win);
     // MPI_Send(jbody, N/size, MPI_BODY, send_to, 0, MPI_COMM_WORLD);
     // MPI_Recv(jbody, N/size, MPI_BODY, recv_from, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
