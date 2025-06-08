@@ -21,7 +21,7 @@ def main():
         vraw = f.readlines()
     with open('p.dat', 'r') as f:
         praw = f.readlines()
-    
+    print(f'n = {len(uraw)}')
     for n in range(len(uraw)):
         plt.clf()
         u_flattened = [float(val) for val in uraw[n].strip().split() if val]
